@@ -50,7 +50,7 @@ const quickActions = [
 
 export default function FamilyPortal() {
   return (
-    <DashboardLayout title="Family Portal" variant="family">
+    <DashboardLayout title="Family Portal">
       <div className="grid grid-cols-12 gap-6">
         {/* Main Content */}
         <div className="col-span-8 space-y-6">
