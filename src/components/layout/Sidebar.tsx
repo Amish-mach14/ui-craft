@@ -2,15 +2,11 @@ import { NavLink } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Calendar, 
-  Heart, 
-  FileText, 
-  MessageSquare,
+  Pill, 
+  AlertTriangle, 
+  Users,
   Settings,
   Shield,
-  Bell,
-  Users,
-  Pill,
-  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,16 +17,14 @@ interface SidebarProps {
 const adminNavItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
   { icon: Calendar, label: "Visits", path: "/visits" },
-  { icon: Heart, label: "Vitals", path: "/vitals" },
-  { icon: FileText, label: "Reports", path: "/reports" },
-  { icon: MessageSquare, label: "Messages", path: "/messages" },
+  { icon: Pill, label: "Medications", path: "/medications" },
+  { icon: AlertTriangle, label: "AI Anomaly Alerts", path: "/alerts" },
+  { icon: Users, label: "Family Portal", path: "/family" },
 ];
 
 const familyNavItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/family" },
-  { icon: MessageSquare, label: "Messages", path: "/family/messages" },
   { icon: Calendar, label: "Schedule", path: "/family/schedule" },
-  { icon: FileText, label: "Billing", path: "/family/billing" },
 ];
 
 export function Sidebar({ variant = "admin" }: SidebarProps) {
