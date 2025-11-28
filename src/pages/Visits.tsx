@@ -106,17 +106,14 @@ export default function Visits() {
             {/* Multi-factor Verification */}
             <div className="mb-6">
               <h4 className="font-medium text-foreground mb-3">Multi-factor Verification</h4>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-secondary rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground mb-1">OTP</p>
+              <div className="bg-secondary rounded-lg p-3">
+                <p className="text-xs text-muted-foreground mb-1">GPS Location</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-foreground">50m from home</p>
                   <div className="flex items-center gap-1.5">
                     <CheckCircle className="w-4 h-4 text-success" />
                     <span className="text-sm text-success font-medium">Verified</span>
                   </div>
-                </div>
-                <div className="bg-secondary rounded-lg p-3">
-                  <p className="text-xs text-muted-foreground mb-1">GPS</p>
-                  <p className="text-sm text-foreground">50m from home</p>
                 </div>
               </div>
             </div>
