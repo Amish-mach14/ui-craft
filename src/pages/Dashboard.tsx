@@ -6,6 +6,8 @@ import { MedicationBoard } from "@/components/dashboard/MedicationBoard";
 import { AIAnomalies } from "@/components/dashboard/AIAnomalies";
 import { CareAgent } from "@/components/dashboard/CareAgent";
 import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
+import { Button } from "@/components/ui/button";
+import { Phone } from "lucide-react";
 
 const visits = [
   { id: "1", icon: "doctor" as const, title: "Dr. Chen", date: "Today", time: "2:00 PM" },
@@ -81,6 +83,14 @@ export default function Dashboard() {
 
         {/* Sidebar */}
         <div className="col-span-4 space-y-6">
+          {/* Emergency Button */}
+          <Button 
+            className="w-full bg-destructive hover:bg-destructive/90 text-destructive-foreground h-12 text-base font-semibold"
+          >
+            <Phone className="w-5 h-5 mr-2" />
+            Emergency
+          </Button>
+          
           <AIAnomalies anomalies={anomalies} newCount={1} />
           <CareAgent 
             name="Maria Rodriguez" 

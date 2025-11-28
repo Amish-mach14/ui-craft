@@ -190,19 +190,31 @@ export default function AIAlerts() {
             {/* Suggested Actions */}
             <div>
               <h4 className="font-medium text-foreground mb-3">Suggested Actions</h4>
-              <div className="space-y-2">
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Call family now to discuss patient's mood
-                </Button>
-                <Button variant="secondary" className="w-full">
-                  <Video className="w-4 h-4 mr-2" />
-                  Schedule doctor tele-consult
-                </Button>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Review medication schedule with nurse
-                </Button>
+              <div className="space-y-3">
+                <button className="w-full group relative overflow-hidden rounded-xl bg-gradient-to-r from-primary to-primary/80 p-[1px] transition-all hover:shadow-lg hover:shadow-primary/25">
+                  <div className="flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 transition-all group-hover:bg-card/70">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20">
+                      <Phone className="h-5 w-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-medium text-foreground">Call family now to discuss patient's mood</span>
+                  </div>
+                </button>
+                <button className="w-full group relative overflow-hidden rounded-xl bg-gradient-to-r from-secondary to-secondary/80 p-[1px] transition-all hover:shadow-lg hover:shadow-secondary/25">
+                  <div className="flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 transition-all group-hover:bg-card/70">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/50">
+                      <Video className="h-5 w-5 text-foreground" />
+                    </div>
+                    <span className="text-sm font-medium text-foreground">Schedule doctor tele-consult</span>
+                  </div>
+                </button>
+                <button className="w-full group relative overflow-hidden rounded-xl bg-gradient-to-r from-warning/60 to-warning/40 p-[1px] transition-all hover:shadow-lg hover:shadow-warning/25">
+                  <div className="flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 transition-all group-hover:bg-card/70">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning/20">
+                      <Calendar className="h-5 w-5 text-warning" />
+                    </div>
+                    <span className="text-sm font-medium text-foreground">Review medication schedule with nurse</span>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
