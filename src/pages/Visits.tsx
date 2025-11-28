@@ -7,10 +7,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const visitHistory = [
   { id: "1", date: "Oct 26, 2023", time: "09:18 AM", nurse: "Maria Rodriguez", status: "Late", duration: "54 mins", anomaly: "Late" },
-  { id: "2", date: "Oct 25, 2023", time: "09:02 AM", nurse: "David Chen", status: "On-time", duration: "61 mins", anomaly: null },
+  { id: "2", date: "Oct 25, 2023", time: "09:02 AM", nurse: "Maria Rodriguez", status: "On-time", duration: "61 mins", anomaly: null },
   { id: "3", date: "Oct 24, 2023", time: "-", nurse: "Maria Rodriguez", status: "Missed", duration: "-", anomaly: "Missed" },
   { id: "4", date: "Oct 23, 2023", time: "08:55 AM", nurse: "Maria Rodriguez", status: "On-time", duration: "59 mins", anomaly: null },
-  { id: "5", date: "Oct 22, 2023", time: "09:05 AM", nurse: "David Chen", status: "On-time", duration: "60 mins", anomaly: null },
+  { id: "5", date: "Oct 22, 2023", time: "09:05 AM", nurse: "Maria Rodriguez", status: "On-time", duration: "60 mins", anomaly: null },
 ];
 
 const statusColors: Record<string, string> = {

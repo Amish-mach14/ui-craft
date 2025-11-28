@@ -7,6 +7,7 @@ import {
   Users,
   Settings,
   Shield,
+  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +19,7 @@ const adminNavItems = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
   { icon: Calendar, label: "Visits", path: "/visits" },
   { icon: Pill, label: "Medications", path: "/medications" },
+  { icon: Building2, label: "Hospitals", path: "/hospitals" },
   { icon: AlertTriangle, label: "AI Anomaly Alerts", path: "/alerts" },
   { icon: Users, label: "Family Portal", path: "/family" },
 ];
