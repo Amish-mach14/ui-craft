@@ -1,17 +1,7 @@
+import { useState } from "react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { 
-  AlertTriangle, 
-  Activity, 
-  Pill, 
-  Phone, 
-  Video, 
-  Calendar,
-  Heart,
-  TrendingDown,
-  FileText
-} from "lucide-react";
+import { Phone, Video, Calendar, Heart, TrendingDown, FileText, AlertTriangle, Pill } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const filterTypes = ["All Types", "Visit Anomaly", "Medication Alert", "Health Risk"];
@@ -57,6 +47,19 @@ const inputSignals = [
 ];
 
 export default function AIAlerts() {
+  const [toast, setToast] = useState<{ message: string; type: "info" | "success" | "error" } | null>(null);
+
+  const showToast = (message: string, type: "info" | "success" | "error" = "info") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const toastColors = {
+    info: "bg-primary/20 border-primary text-primary",
+    success: "bg-success/20 border-success text-success",
+    error: "bg-destructive/20 border-destructive text-destructive",
+  };
+
   return (
     <DashboardLayout title="" searchPlaceholder="Search...">
       <div className="mb-6">
@@ -67,18 +70,19 @@ export default function AIAlerts() {
       <div className="grid grid-cols-12 gap-6">
         {/* Filters and Alerts List */}
         <div className="col-span-7 space-y-6">
-          {/* Filters */}
           <div className="space-y-4">
             <div>
               <p className="text-sm font-medium text-foreground mb-2">Filter by Type</p>
               <div className="flex gap-2">
                 {filterTypes.map((type, i) => (
-                  <Badge 
+                  <Badge
                     key={type}
                     variant={i === 0 ? "default" : "secondary"}
                     className={cn(
                       "cursor-pointer",
-                      i === 0 ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                      i === 0
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                     )}
                   >
                     {type}
@@ -90,7 +94,7 @@ export default function AIAlerts() {
               <p className="text-sm font-medium text-foreground mb-2">Filter by Severity</p>
               <div className="flex gap-2">
                 {filterSeverity.map((severity) => (
-                  <Badge 
+                  <Badge
                     key={severity}
                     variant="secondary"
                     className="bg-secondary text-secondary-foreground hover:bg-secondary/80 cursor-pointer"
@@ -107,7 +111,7 @@ export default function AIAlerts() {
             {alerts.map((alert, index) => {
               const Icon = alert.icon;
               return (
-                <div 
+                <div
                   key={alert.id}
                   className={cn(
                     "glass-card p-4 flex items-center gap-4 cursor-pointer transition-colors",
@@ -125,11 +129,16 @@ export default function AIAlerts() {
                     <div>
                       <p className="text-xs text-muted-foreground">Severity</p>
                       <div className="flex items-center gap-1.5">
-                        <span className={cn(
-                          "w-2 h-2 rounded-full",
-                          alert.severity === "High" ? "bg-destructive" :
-                          alert.severity === "Medium" ? "bg-warning" : "bg-success"
-                        )} />
+                        <span
+                          className={cn(
+                            "w-2 h-2 rounded-full",
+                            alert.severity === "High"
+                              ? "bg-destructive"
+                              : alert.severity === "Medium"
+                              ? "bg-warning"
+                              : "bg-success"
+                          )}
+                        />
                         <span className="font-medium text-foreground text-sm">{alert.severity}</span>
                       </div>
                     </div>
@@ -177,49 +186,53 @@ export default function AIAlerts() {
               </div>
             </div>
 
-            {/* AI Explanation */}
-            <div className="mb-6">
-              <h4 className="font-medium text-foreground mb-3">AI Explanation</h4>
-              <div className="bg-secondary rounded-lg p-4">
-                <p className="text-sm text-muted-foreground">
-                  Based on a combination of elevated vitals, a significant drop in physical activity, and qualitative nurse notes, the Vitals Agent suggests a potential health decline. These factors together indicate a high risk that requires timely medical assessment.
-                </p>
-              </div>
-            </div>
-
             {/* Suggested Actions */}
             <div>
               <h4 className="font-medium text-foreground mb-3">Suggested Actions</h4>
               <div className="space-y-3">
-                <button className="w-full group relative overflow-hidden rounded-xl bg-gradient-to-r from-primary to-primary/80 p-[1px] transition-all hover:shadow-lg hover:shadow-primary/25">
-                  <div className="flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 transition-all group-hover:bg-card/70">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20">
-                      <Phone className="h-5 w-5 text-primary" />
+                {[Phone, Video, Calendar].map((IconComp, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => showToast("Future Implementation", "info")}
+                    className="w-full group relative overflow-hidden rounded-xl bg-gradient-to-r from-primary to-primary/80 p-[1px] transition-all hover:shadow-lg hover:shadow-primary/25"
+                  >
+                    <div className="flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 transition-all group-hover:bg-card/70">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20">
+                        <IconComp className="h-5 w-5 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium text-foreground">
+                        {IconComp === Phone
+                          ? "Call family now to discuss patient's mood"
+                          : IconComp === Video
+                          ? "Schedule doctor tele-consult"
+                          : "Review medication schedule with nurse"}
+                      </span>
                     </div>
-                    <span className="text-sm font-medium text-foreground">Call family now to discuss patient's mood</span>
-                  </div>
-                </button>
-                <button className="w-full group relative overflow-hidden rounded-xl bg-gradient-to-r from-secondary to-secondary/80 p-[1px] transition-all hover:shadow-lg hover:shadow-secondary/25">
-                  <div className="flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 transition-all group-hover:bg-card/70">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/50">
-                      <Video className="h-5 w-5 text-foreground" />
-                    </div>
-                    <span className="text-sm font-medium text-foreground">Schedule doctor tele-consult</span>
-                  </div>
-                </button>
-                <button className="w-full group relative overflow-hidden rounded-xl bg-gradient-to-r from-warning/60 to-warning/40 p-[1px] transition-all hover:shadow-lg hover:shadow-warning/25">
-                  <div className="flex items-center gap-3 rounded-xl bg-card/90 px-4 py-3 transition-all group-hover:bg-card/70">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning/20">
-                      <Calendar className="h-5 w-5 text-warning" />
-                    </div>
-                    <span className="text-sm font-medium text-foreground">Review medication schedule with nurse</span>
-                  </div>
-                </button>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Toast Message Box - Proper GUI */}
+      {toast && (
+        <div
+          className={cn(
+            "fixed bottom-5 right-5 w-72 glass-card p-4 border rounded-lg shadow-lg flex items-start gap-3 animate-fade-in-out z-50",
+            toastColors[toast.type]
+          )}
+        >
+          <div className="flex-shrink-0">
+            <AlertTriangle className="w-6 h-6" />
+          </div>
+          <div className="flex-1">
+            <p className="font-semibold text-foreground text-sm">Notice</p>
+            <p className="text-xs text-muted-foreground">{toast.message}</p>
+          </div>
+        </div>
+      )}
     </DashboardLayout>
   );
 }

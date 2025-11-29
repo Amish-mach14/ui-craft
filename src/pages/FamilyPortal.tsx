@@ -11,9 +11,11 @@ import {
   Video,
   MessageCircle,
   Calendar,
-  Pill
+  Pill,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const reliabilityBadges = [
   { icon: Clock, label: "Punctuality" },
@@ -42,13 +44,46 @@ const moments = [
 ];
 
 const quickActions = [
-  { icon: Send, label: "Send Message to Nurse", primary: true },
-  { icon: PlusCircle, label: "Request Extra Visit", primary: true },
-  { icon: Video, label: "Start Video Call", primary: false },
-  { icon: MessageCircle, label: "Add Feedback", primary: true },
+  { icon: Send, label: "Send Message to Nurse", type: "chat" },
+  { icon: PlusCircle, label: "Request Extra Visit", type: "extraVisit" },
+  { icon: Video, label: "Start Video Call", type: "video" },
+  { icon: MessageCircle, label: "Add Feedback", type: "feedback" },
 ];
 
 export default function FamilyPortal() {
+  const [modalType, setModalType] = useState<string | null>(null);
+  const [chatHistory, setChatHistory] = useState<string[]>([]);
+  const [chatInput, setChatInput] = useState("");
+  const [feedbackInput, setFeedbackInput] = useState("");
+  const [extraVisitDays, setExtraVisitDays] = useState("");
+  const [extraVisitTime, setExtraVisitTime] = useState("");
+  const [msgDialog, setMsgDialog] = useState<string | null>(null);
+
+  const handleSendChat = () => {
+    if (chatInput.trim() === "") return;
+    setChatHistory([...chatHistory, chatInput]);
+    setChatInput("");
+    setMsgDialog("Message sent");
+    setTimeout(() => setMsgDialog(null), 2000);
+  };
+
+  const handleSendFeedback = () => {
+    if (feedbackInput.trim() === "") return;
+    setMsgDialog("Feedback sent");
+    setTimeout(() => setMsgDialog(null), 2000);
+    setFeedbackInput("");
+    setModalType(null);
+  };
+
+  const handleExtraVisitRequest = () => {
+    if (!extraVisitDays || !extraVisitTime) return;
+    setMsgDialog("Request sent");
+    setTimeout(() => setMsgDialog(null), 2000);
+    setExtraVisitDays("");
+    setExtraVisitTime("");
+    setModalType(null);
+  };
+
   return (
     <DashboardLayout title="Family Portal">
       <div className="grid grid-cols-12 gap-6">
@@ -57,7 +92,6 @@ export default function FamilyPortal() {
           {/* Care Reliability Score */}
           <div className="glass-card p-6">
             <div className="flex items-center gap-6">
-              {/* Score Circle */}
               <div className="relative w-24 h-24">
                 <svg className="w-24 h-24 transform -rotate-90">
                   <circle
@@ -142,11 +176,9 @@ export default function FamilyPortal() {
                 return (
                   <Button
                     key={action.label}
-                    variant={action.primary ? "default" : "secondary"}
-                    className={cn(
-                      "w-full justify-start",
-                      action.primary && "bg-primary text-primary-foreground hover:bg-primary/90"
-                    )}
+                    variant="default"
+                    className={cn("w-full justify-start bg-primary text-primary-foreground hover:bg-primary/90")}
+                    onClick={() => setModalType(action.type)}
                   >
                     <Icon className="w-4 h-4 mr-2" />
                     {action.label}
@@ -182,6 +214,101 @@ export default function FamilyPortal() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      {modalType && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-card w-[400px] rounded-lg shadow-lg p-5 relative">
+            <X 
+              className="absolute top-3 right-3 w-5 h-5 cursor-pointer text-muted-foreground"
+              onClick={() => setModalType(null)}
+            />
+
+            {modalType === "chat" && (
+              <>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Chat with Nurse</h3>
+                <div className="border border-border rounded-lg h-64 p-3 overflow-y-auto mb-3 flex flex-col gap-2 bg-secondary/10">
+                  {chatHistory.length === 0 && (
+                    <p className="text-sm text-muted-foreground">No messages yet</p>
+                  )}
+                  {chatHistory.map((msg, idx) => (
+                    <div 
+                      key={idx} 
+                      className="bg-primary/80 text-white px-3 py-1 rounded self-start max-w-[80%]"
+                    >
+                      {msg}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    className="flex-1 border border-border rounded-lg px-3 py-2 text-black placeholder:text-muted-foreground"
+                    placeholder="Type a message..."
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                  />
+                  <Button onClick={handleSendChat}>Send</Button>
+                </div>
+              </>
+            )}
+
+            {modalType === "extraVisit" && (
+              <>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Request Extra Visit</h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-sm font-medium text-foreground">Number of Days</label>
+                    <input
+                      type="number"
+                      className="w-full border border-border rounded-lg px-3 py-2 text-black"
+                      value={extraVisitDays}
+                      onChange={(e) => setExtraVisitDays(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground">Time</label>
+                    <input
+                      type="time"
+                      className="w-full border border-border rounded-lg px-3 py-2 text-black"
+                      value={extraVisitTime}
+                      onChange={(e) => setExtraVisitTime(e.target.value)}
+                    />
+                  </div>
+                  <Button className="w-full mt-2" onClick={handleExtraVisitRequest}>Schedule Request</Button>
+                </div>
+              </>
+            )}
+
+            {modalType === "feedback" && (
+              <>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Send Feedback to Nurse</h3>
+                <textarea
+                  className="w-full border border-border rounded-lg p-2 h-32 mb-3 text-black placeholder:text-muted-foreground"
+                  placeholder="Type feedback..."
+                  value={feedbackInput}
+                  onChange={(e) => setFeedbackInput(e.target.value)}
+                />
+                <Button className="w-full" onClick={handleSendFeedback}>Send Feedback</Button>
+              </>
+            )}
+
+            {modalType === "video" && (
+              <div className="flex flex-col items-center justify-center gap-3">
+                <h3 className="text-lg font-semibold text-foreground">Video Call</h3>
+                <p className="text-sm text-muted-foreground">Future implementation</p>
+                <Button onClick={() => setModalType(null)}>Close</Button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Message Dialog */}
+      {msgDialog && (
+        <div className="fixed bottom-5 right-5 bg-success/90 text-white px-4 py-2 rounded shadow-lg z-50">
+          {msgDialog}
+        </div>
+      )}
     </DashboardLayout>
   );
 }
